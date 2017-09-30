@@ -33,18 +33,13 @@ namespace cwSendMsg
             var token = args[0];
 
             // RoomId
-            int roomId;
-            if (!int.TryParse(args[1], out roomId))
-            {
-                PrintUsage();
-                return EXIT_FAILURE;
-            }
+            var roomId = args[1];
 
             try
             {
                 var client = new ChatworkClient(token);
                 var resp = client.SendMessage(roomId, messageBody);
-                if (resp == null || resp.message_id == 0)
+                if (resp == null || string.IsNullOrEmpty(resp.MessageId))
                 {
                     Console.Error.WriteLine("SendMessage failed.");
                     return EXIT_FAILURE;
@@ -64,7 +59,6 @@ namespace cwSendMsg
                 return EXIT_FAILURE;
             }
 
-            
             return EXIT_SUCCESS;
         }
 
